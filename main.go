@@ -53,14 +53,14 @@ func main() {
 	}))
 
 	v1Router := chi.NewRouter()
-	// V1 routes will only use GET method
 	v1Router.Get("/healthz", readinessHandler)
 	v1Router.Get("/err", handlerErr)
 	v1Router.Post("/users", apiConfig.handlerCreateUser)
+	v1Router.Get("/users", apiConfig.middlewareAuth(apiConfig.handlerGetUser))
+	v1Router.Post("/feeds", apiConfig.middlewareAuth(apiConfig.handlerCreateFeeds))
+	v1Router.Get("/feeds", apiConfig.handlerGetFeeds)
 
 	router.Mount("/v1", v1Router)
-
-
 		
 	srv := &http.Server{
 		Handler : router,

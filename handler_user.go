@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Nukie90/rssagg/internal/database"
+	_"github.com/Nukie90/rssagg/internal/auth"
 	"github.com/google/uuid"
 )
 
@@ -34,6 +35,10 @@ func (a *apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, 400, fmt.Sprintf("Error creating user: %v", err))
 		return
 	}
+	respondWithJSON(w, 200, databaseUsertoUser(user))
+}
+
+func (a *apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request, user database.User) {
 	respondWithJSON(w, 200, databaseUsertoUser(user))
 }
 
